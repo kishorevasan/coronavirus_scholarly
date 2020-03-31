@@ -13,22 +13,44 @@ adj_list = []
 author_id_to_node = {}
 author_counter = 0
 
+author_affiliation = {} # key : value = author counter : affil
+
 # loop through nodes
 for i in data['nodes']:
-  nodes[author_counter] = {'name' : i['author_name']}#, 'affl' : i['affil_name']}
+  nodes[author_counter] = {'name' : i['author_name'],'affiliation':i['affil_name'].encode('utf-8').strip()}
   author_id_to_node[i['author_id']] = author_counter
+  author_affiliation[author_counter] = i['affil_name'].encode('utf-8').strip()
   author_counter+=1
+
+# create institution codes
+unique_affiliations = list(set(author_affiliation.values()))
+
+institution_node_id = {} # key : value = uw : 0
+for i in range(len(unique_affiliations)):
+  institution_node_id[i] = {'name': unique_affiliations[i]}
+
+inst_adj_list = [] # link institutions
 
 print "completed nodes"
 
+# given inst name returns the corresponding node id
+def get_inst_id(x):
+  for i,j in institution_node_id.items():
+    if j['name'] == x:
+      return i
+
 # loop through links
 for i in data['links']:
-  adj_list.append([author_id_to_node[i['source']], author_id_to_node[i['target']], i['weight']])
+  source_id, target_id = author_id_to_node[i['source']], author_id_to_node[i['target']]
+  print i['source'], i['target']
+  print source_id, target_id
+  adj_list.append([source_id, target_id, i['weight']])
+  source_affl, target_affl = author_affiliation[source_id], author_affiliation[target_id]
+  inst_adj_list.append([get_inst_id(source_affl), get_inst_id(target_affl)])
 
 print "completed links"
 
-null = None
-# final
+# final structure
 res = {
   "display": {
       "nodes":nodes
@@ -47,8 +69,12 @@ res = {
 
 res = json.dumps(res)
 
+# printing area
 print "----"
-print res
+print inst_adj_list
+print institution_node_id
+#print res
+#print nodes
 print "---"
 with open('data2.json','w') as json_file:
   json.dump(json.dumps(res), json_file)
