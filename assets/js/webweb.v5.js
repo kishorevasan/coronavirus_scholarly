@@ -26,11 +26,11 @@ function Webweb(wwdata) {
 
     // use this to change the defaults
     this.displayDefaults = {
-        'c' : 60, // charge
+        'c' : 40, // charge
         'g' : 0.1, // gravity
         'l' : 20, // edge length
         'r' : 5, // node radius
-        'linkStrength' : 1,
+        'linkStrength' : 0.05,
         'colorPalette' : 'Set1',
         'metadata' : {},
         'nameToMatch' : "",
@@ -41,7 +41,7 @@ function Webweb(wwdata) {
         'colorBy' : 'degree',
         'sizeBy' : 'degree',
         'showLegend': true,
-        'scaleLinkOpacity' : false,
+        'scaleLinkOpacity' : true,
         'networkName' : this.networkNames[0],
         'networkLayer' : 0,
     };
