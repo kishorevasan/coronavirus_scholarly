@@ -42,6 +42,7 @@ function Webweb(wwdata) {
         'sizeBy' : 'degree',
         'showLegend': true,
         'scaleLinkOpacity' : true,
+        'scaleLinkWidth' : true,
         'networkName' : this.networkNames[0],
         'networkLayer' : 0,
     };

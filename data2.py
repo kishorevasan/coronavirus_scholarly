@@ -17,7 +17,7 @@ author_affiliation = {} # key : value = author counter : affil
 
 # loop through nodes
 for i in data['nodes']:
-  nodes[author_counter] = {'name' : i['author_name'],'affiliation':i['affil_name'].encode('utf-8').strip()}
+  nodes[author_counter] = {'name' : i['author_name'],'affiliation':i['affil_name'].encode('utf-8').strip(), 'num_papers':len(i['papers'])}
   author_id_to_node[i['author_id']] = author_counter
   author_affiliation[author_counter] = i['affil_name'].encode('utf-8').strip()
   author_counter+=1
@@ -69,14 +69,21 @@ res = {
 
 res = json.dumps(res)
 
+###
+# Heterogeneous graph - inst and authorships
+###
+
+
+
 # printing area
 print "----"
-print inst_adj_list
-print institution_node_id
+#print inst_adj_list
+#print institution_node_id
 #print res
-#print nodes
 print "---"
-with open('data2.json','w') as json_file:
-  json.dump(json.dumps(res), json_file)
+#with open('data2.json','w') as json_file:
+#  json.dump(json.dumps(res), json_file)
+
+
 
 # copy the above json file onto javascript
